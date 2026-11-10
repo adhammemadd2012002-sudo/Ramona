@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5EEDF"/>
+      <stop offset="60%" stop-color="#E8BD75"/>
+      <stop offset="100%" stop-color="#C99A4E"/>
+    </radialGradient>
+    <linearGradient id="moonGlow" x1="15%" y1="15%" x2="85%" y2="85%">
+      <stop offset="0%" stop-color="#F5EEDF"/>
+      <stop offset="55%" stop-color="#DCE4F2"/>
+      <stop offset="100%" stop-color="#A9A0C9"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="#10142B" stroke="#E8BD75" stroke-width="1.6"/>
+  <circle cx="25" cy="32" r="13.5" fill="url(#sunGlow)"/>
+  <path d="M 39 17 A 15.5 15.5 0 0 0 39 47 A 12.5 12.5 0 0 1 39 17 Z" fill="url(#moonGlow)"/>
+  <circle cx="17" cy="16" r="1.4" fill="#F5EEDF"/>
+  <circle cx="48" cy="18" r="1.2" fill="#E8BD75"/>
+  <circle cx="46" cy="47" r="1.3" fill="#A9A0C9"/>
+</svg>

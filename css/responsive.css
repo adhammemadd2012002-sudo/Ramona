@@ -1,0 +1,189 @@
+/**
+ * responsive.css - Mobile-First Responsive Compositions & Breakpoints
+ * Tested for 360px, 375px, 390px, 430px mobile, tablets, 1366px, and 1440px+ desktops
+ */
+
+/* Extra-Narrow & Standard Mobile Viewports (360px - 640px) */
+@media (max-width: 640px) {
+  :root {
+    --font-size-base: 1.05rem;
+    --font-size-lg: 1.15rem;
+    --font-size-xl: 1.35rem;
+    --font-size-2xl: 1.55rem;
+    --font-size-3xl: 1.85rem;
+    --font-size-4xl: 2.05rem;
+    --space-xl: 1.5rem;
+    --space-2xl: 1.85rem;
+    --space-3xl: 2.75rem;
+    --space-4xl: 3.75rem;
+  }
+
+  .site-header {
+    padding: 0.65rem var(--space-md);
+  }
+
+  .site-header__title {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .site-header__subtitle {
+    display: none;
+  }
+
+  .opening-hero {
+    min-height: calc(100vh - 52px);
+    padding: var(--space-xl) var(--space-sm) var(--space-2xl);
+  }
+
+  .open-story-cta {
+    padding: 0.85rem 1.35rem;
+    white-space: nowrap;
+    gap: 0.55rem;
+  }
+
+  .open-story-cta__en {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+  }
+
+  .open-story-cta__ar {
+    font-size: 0.95rem;
+  }
+
+  .chapter-section {
+    min-height: auto;
+    padding: var(--space-2xl) 0.75rem var(--space-3xl);
+  }
+
+  .chapter-scene-stage {
+    border-radius: var(--radius-md);
+  }
+
+  .scene-interaction-bar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .scene-action-btn,
+  .pillar-select-btn {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .pillar-buttons-group {
+    flex-direction: column;
+  }
+
+  .chapter-narrative-card {
+    padding: var(--space-xl) 1.2rem;
+    border-radius: var(--radius-md);
+  }
+
+  .chapter-narrative-card--letter {
+    padding: var(--space-2xl) 1.25rem;
+  }
+
+  .chapter-section--climax .letter-salutation {
+    font-size: 1.35rem;
+    margin-bottom: var(--space-lg);
+  }
+
+  .chapter-section--climax .narrative-paragraph {
+    font-size: 1.08rem;
+    line-height: 2.05;
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Compact Bottom Navigation for Mobile */
+  .story-navigation {
+    padding: 0.45rem 0.65rem;
+  }
+
+  .navigation-controls {
+    gap: 0.4rem;
+  }
+
+  .constellation-dots {
+    gap: 0.12rem;
+  }
+
+  .constellation-dot {
+    width: 15px;
+    height: 22px;
+  }
+
+  .constellation-dot__star {
+    width: 5px;
+    height: 5px;
+  }
+
+  .constellation-dot.is-active .constellation-dot__star {
+    width: 8px;
+    height: 8px;
+  }
+
+  .chapter-counter {
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    max-width: 175px;
+  }
+
+  .nav-btn {
+    padding: 0.45rem 0.75rem;
+    min-height: 40px;
+    font-size: 0.68rem;
+  }
+}
+
+/* Ultra-Compact Screens (360px - 380px) */
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .constellation-dots {
+    display: none;
+  }
+
+  .chapter-counter {
+    max-width: 185px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Tablet Viewports (641px - 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .chapter-section {
+    padding: var(--space-3xl) var(--space-lg);
+  }
+
+  .chapter-narrative-card {
+    padding: var(--space-2xl);
+  }
+}
+
+/* Desktop & Large Displays (1025px+) */
+@media (min-width: 1025px) {
+  .chapter-narrative-card {
+    padding: 3rem 3.5rem;
+  }
+
+  .chapter-narrative-card--letter {
+    padding: 3.75rem 4.25rem;
+  }
+}
+
+/* Touch Device Ergonomics */
+@media (hover: none) and (pointer: coarse) {
+  .nav-btn,
+  .scene-action-btn,
+  .pillar-select-btn,
+  .open-story-cta,
+  .return-top-btn {
+    min-height: 44px;
+  }
+}

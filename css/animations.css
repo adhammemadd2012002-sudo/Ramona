@@ -1,0 +1,129 @@
+/**
+ * animations.css - Controlled Celestial Motion, Character Animations & Reduced Motion
+ * Intentional, performant animations with full prefers-reduced-motion support
+ */
+
+/* Scroll-Triggered Reveal Transitions */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s var(--ease-out-quart), transform 0.65s var(--ease-out-quart);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translate(350px, 240px) translateY(0);
+  }
+  50% {
+    transform: translate(350px, 240px) translateY(-7px);
+  }
+}
+
+@keyframes butterflyOrbit {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-10px, -9px) rotate(3deg);
+  }
+}
+
+@keyframes butterflyFlutter {
+  0%, 100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.82);
+  }
+}
+
+@keyframes sunRayBreathe {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(6deg) scale(1.03);
+  }
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.28;
+  }
+  50% {
+    opacity: 0.92;
+  }
+}
+
+/* Applied Character & Scene Animations */
+.storybook-vessel {
+  animation: gentleFloat 6s ease-in-out infinite;
+}
+
+.opening-butterfly-orbit {
+  animation: butterflyOrbit 5.5s ease-in-out infinite;
+}
+
+.butterfly-wings {
+  transform-origin: 0px 0px;
+  animation: butterflyFlutter 2.8s ease-in-out infinite;
+}
+
+.sun-rays-group {
+  transform-origin: 0px 0px;
+  animation: sunRayBreathe 10s ease-in-out infinite;
+}
+
+.scene-star--twinkle {
+  animation: starTwinkle 4.2s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal) forwards;
+}
+
+/* =========================================================================
+   REDUCED MOTION COMPLIANCE
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .storybook-vessel,
+  .opening-butterfly-orbit,
+  .butterfly-wings,
+  .sun-rays-group,
+  .scene-star--twinkle {
+    animation: none !important;
+  }
+}
