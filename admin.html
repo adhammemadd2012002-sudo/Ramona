@@ -265,6 +265,30 @@
       const messagesList = document.getElementById('messages-list');
 
       let accessToken = localStorage.getItem('moon_sun_admin_token') || '';
+      let refreshToken = localStorage.getItem('moon_sun_admin_refresh') || '';
+
+      async function refreshSession() {
+        if (!refreshToken) return false;
+        try {
+          const res = await fetch(`${cfg.projectUrl}/auth/v1/token?grant_type=refresh_token`, {
+            method: 'POST',
+            headers: {
+              apikey: cfg.publishableKey,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ refresh_token: refreshToken })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.access_token) return false;
+          accessToken = data.access_token;
+          refreshToken = data.refresh_token || refreshToken;
+          localStorage.setItem('moon_sun_admin_token', accessToken);
+          localStorage.setItem('moon_sun_admin_refresh', refreshToken);
+          return true;
+        } catch (_) {
+          return false;
+        }
+      }
 
       function todayIso() {
         const d = new Date();
@@ -358,7 +382,9 @@
 
       function logout() {
         accessToken = '';
+        refreshToken = '';
         localStorage.removeItem('moon_sun_admin_token');
+        localStorage.removeItem('moon_sun_admin_refresh');
         dashboardPanel.classList.add('hidden');
         loginCard.classList.remove('hidden');
       }
@@ -388,7 +414,11 @@
             throw new Error(data.error_description || data.msg || 'بيانات الدخول غير صحيحة');
           }
           accessToken = data.access_token;
+          refreshToken = data.refresh_token || '';
           localStorage.setItem('moon_sun_admin_token', accessToken);
+          if (refreshToken) {
+            localStorage.setItem('moon_sun_admin_refresh', refreshToken);
+          }
           showStatus('تم تسجيل الدخول بنجاح ✨');
           enterDashboard();
         } catch (err) {
@@ -441,7 +471,7 @@
             media_url: finalMediaUrl
           };
 
-          const insertRes = await fetch(`${cfg.projectUrl}/rest/v1/daily_messages`, {
+          let insertRes = await fetch(`${cfg.projectUrl}/rest/v1/daily_messages`, {
             method: 'POST',
             headers: {
               apikey: cfg.publishableKey,
@@ -451,6 +481,19 @@
             },
             body: JSON.stringify(payload)
           });
+
+          if ((insertRes.status === 401 || insertRes.status === 403) && await refreshSession()) {
+            insertRes = await fetch(`${cfg.projectUrl}/rest/v1/daily_messages`, {
+              method: 'POST',
+              headers: {
+                apikey: cfg.publishableKey,
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+                Prefer: 'return=representation'
+              },
+              body: JSON.stringify(payload)
+            });
+          }
 
           if (!insertRes.ok) {
             const errData = await insertRes.json().catch(() => ({}));
