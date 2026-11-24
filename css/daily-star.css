@@ -1,0 +1,298 @@
+/**
+ * daily-star.css - "Today's Star" (نجمة اليوم) Header Trigger & Celestial Modal
+ */
+
+.daily-star-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-gold-border);
+  background: rgba(232, 189, 117, 0.1);
+  color: var(--color-warm-gold);
+  font-family: var(--font-arabic);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.daily-star-trigger:hover {
+  background: rgba(232, 189, 117, 0.2);
+  box-shadow: 0 0 18px rgba(232, 189, 117, 0.25);
+  transform: translateY(-1px);
+}
+
+.daily-star-trigger__icon {
+  font-size: 0.95rem;
+  display: inline-block;
+  animation: dailyStarPulse 2.8s ease-in-out infinite;
+}
+
+.daily-star-trigger__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-warm-gold);
+  box-shadow: 0 0 8px var(--color-warm-gold);
+  display: none;
+}
+
+.daily-star-trigger.has-new .daily-star-trigger__dot {
+  display: inline-block;
+}
+
+@keyframes dailyStarPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+/* Modal Backdrop */
+.daily-star-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(11, 14, 31, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.daily-star-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.daily-star-dialog {
+  width: 100%;
+  max-width: 560px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: linear-gradient(165deg, rgba(25, 29, 58, 0.97) 0%, rgba(16, 20, 43, 0.99) 100%);
+  border: 1px solid var(--color-gold-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 40px rgba(232, 189, 117, 0.12);
+  padding: 1.75rem 1.5rem 1.5rem;
+  color: var(--color-soft-ivory);
+  position: relative;
+  direction: rtl;
+  text-align: right;
+}
+
+.daily-star-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  margin-bottom: 1.25rem;
+}
+
+.daily-star-dialog__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.daily-star-dialog__eyebrow {
+  font-family: var(--font-latin);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-warm-gold);
+}
+
+.daily-star-dialog__title {
+  font-family: var(--font-arabic);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-soft-ivory);
+  margin: 0;
+}
+
+.daily-star-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-subtle);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-soft-moonlight);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.daily-star-close-btn:hover {
+  background: rgba(232, 189, 117, 0.16);
+  color: var(--color-warm-gold);
+}
+
+/* Message Card */
+.daily-message-card {
+  background: rgba(16, 20, 43, 0.65);
+  border: 1px solid rgba(232, 189, 117, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.daily-message-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.82rem;
+  color: var(--color-muted-lavender);
+}
+
+.daily-message-card__date {
+  color: var(--color-warm-gold);
+  font-weight: 500;
+}
+
+.daily-message-card__title {
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: var(--color-gold-light);
+  margin: 0 0 0.65rem;
+}
+
+.daily-message-card__text {
+  font-family: var(--font-arabic);
+  font-size: 1.08rem;
+  line-height: 1.9;
+  color: var(--color-soft-ivory);
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.daily-message-card__media {
+  margin-top: 1rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  background: #0B0E1F;
+}
+
+.daily-message-card__media img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+}
+
+.daily-message-card__embed {
+  margin-top: 1rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.daily-message-card__embed iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+.daily-star-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--color-soft-moonlight);
+  font-family: var(--font-arabic);
+  line-height: 1.8;
+}
+
+/* Archive Section */
+.daily-archive-toggle {
+  margin-top: 1.1rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-soft-moonlight);
+  font-family: var(--font-arabic);
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.daily-archive-toggle:hover {
+  border-color: var(--color-gold-border);
+  color: var(--color-warm-gold);
+}
+
+.daily-archive-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.daily-archive-item {
+  width: 100%;
+  text-align: right;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--color-soft-ivory);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.daily-archive-item:hover,
+.daily-archive-item.is-selected {
+  border-color: var(--color-gold-border);
+  background: rgba(232, 189, 117, 0.09);
+}
+
+.daily-archive-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.daily-archive-item__preview {
+  font-size: 0.92rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.daily-archive-item__date {
+  font-size: 0.78rem;
+  color: var(--color-warm-gold);
+}
+
+.daily-archive-item__badge {
+  font-size: 0.8rem;
+  color: var(--color-muted-lavender);
+  flex-shrink: 0;
+}
+
+@media (max-width: 520px) {
+  .daily-star-trigger__label {
+    font-size: 0.78rem;
+  }
+  .daily-star-dialog {
+    padding: 1.25rem 1rem;
+  }
+}

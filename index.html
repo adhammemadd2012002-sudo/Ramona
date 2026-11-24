@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/chapters.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/daily-star.css">
 </head>
 <body data-active-chapter="1">
   <!-- Layered Celestial Atmosphere & Subtle Paper Grain -->
@@ -44,9 +45,11 @@
           <span class="site-header__title">The Moon Found His Sun</span>
           <span class="site-header__subtitle" lang="ar" dir="rtl">حكاية قمر وشمس</span>
         </a>
-        <div class="site-header__ornament" aria-hidden="true">
-          <span class="ornament-star">✦</span>
-        </div>
+        <button type="button" id="daily-star-btn" class="daily-star-trigger" aria-label="نجمة اليوم — رسالة متجددة">
+          <span class="daily-star-trigger__icon" aria-hidden="true">✦</span>
+          <span class="daily-star-trigger__label" lang="ar" dir="rtl">نجمة اليوم</span>
+          <span class="daily-star-trigger__dot" aria-hidden="true"></span>
+        </button>
       </div>
     </header>
 
@@ -147,6 +150,20 @@
     </footer>
   </div>
 
+  <!-- Daily Star Modal (نجمة اليوم) -->
+  <div id="daily-star-modal" class="daily-star-modal" role="dialog" aria-modal="true" aria-labelledby="daily-star-modal-title" aria-hidden="true">
+    <div class="daily-star-dialog">
+      <div class="daily-star-dialog__header">
+        <div class="daily-star-dialog__title-wrap">
+          <span class="daily-star-dialog__eyebrow">Daily Ray of Light</span>
+          <h2 id="daily-star-modal-title" class="daily-star-dialog__title">نجمة اليوم ✦</h2>
+        </div>
+        <button type="button" id="daily-star-close" class="daily-star-close-btn" aria-label="إغلاق">×</button>
+      </div>
+      <div id="daily-star-body"></div>
+    </div>
+  </div>
+
   <!-- Application Scripts (Ordered for both file:// and HTTP/HTTPS compatibility) -->
   <script defer src="src/content/story.js"></script>
   <script defer src="js/characters.js"></script>
@@ -156,5 +173,7 @@
   <script defer src="js/interactions.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/app.js"></script>
+  <script defer src="js/supabase-config.js"></script>
+  <script defer src="js/daily-star.js"></script>
 </body>
 </html>

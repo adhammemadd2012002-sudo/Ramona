@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نجمة اليوم — لوحة التحكم السرية</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <style>
+    body {
+      background: radial-gradient(ellipse at 50% 15%, #191D3A 0%, #10142B 75%);
+      color: var(--color-soft-ivory);
+      font-family: var(--font-arabic);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+    .admin-shell {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .admin-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .admin-header__eyebrow {
+      font-family: var(--font-latin);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      color: var(--color-warm-gold);
+      text-transform: uppercase;
+    }
+    .admin-header__title {
+      font-size: 1.75rem;
+      margin: 0.35rem 0;
+      color: var(--color-soft-ivory);
+    }
+    .admin-header__back {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: var(--color-soft-moonlight);
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .admin-header__back:hover { color: var(--color-warm-gold); }
+    .admin-card {
+      background: rgba(25, 29, 58, 0.84);
+      border: 1px solid var(--color-gold-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+    .admin-card h2 {
+      font-size: 1.2rem;
+      color: var(--color-warm-gold);
+      margin: 0 0 1.15rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--color-soft-moonlight);
+      margin-bottom: 0.4rem;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      background: rgba(16, 20, 43, 0.9);
+      color: var(--color-soft-ivory);
+      font-family: var(--font-arabic);
+      font-size: 0.98rem;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--color-warm-gold);
+    }
+    textarea.form-control {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+    .btn-gold {
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-warm-gold);
+      background: linear-gradient(135deg, #E8BD75, #C99A4E);
+      color: #10142B;
+      font-family: var(--font-arabic);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .btn-gold:hover { opacity: 0.94; transform: translateY(-1px); }
+    .btn-gold:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-outline {
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border-subtle);
+      background: transparent;
+      color: var(--color-soft-moonlight);
+      font-family: var(--font-arabic);
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--color-warm-gold); color: var(--color-warm-gold); }
+    .btn-danger {
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 110, 110, 0.4);
+      background: rgba(255, 110, 110, 0.1);
+      color: #ff9c9c;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .status-banner {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+      font-size: 0.92rem;
+      display: none;
+    }
+    .status-banner.is-visible { display: block; }
+    .status-banner--ok {
+      background: rgba(80, 200, 120, 0.14);
+      border: 1px solid rgba(80, 200, 120, 0.4);
+      color: #a6f0c0;
+    }
+    .status-banner--err {
+      background: rgba(255, 100, 100, 0.14);
+      border: 1px solid rgba(255, 100, 100, 0.4);
+      color: #ffb3b3;
+    }
+    .admin-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+    }
+    .msg-row {
+      padding: 0.9rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      background: rgba(16, 20, 43, 0.55);
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    .msg-row__date { font-size: 0.8rem; color: var(--color-warm-gold); }
+    .msg-row__text { font-size: 0.94rem; margin: 0.3rem 0 0; color: var(--color-soft-ivory); }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-header">
+      <div class="admin-header__eyebrow">The Moon Found His Sun</div>
+      <h1 class="admin-header__title">لوحة التحكم — نجمة اليوم ✦</h1>
+      <a href="index.html" class="admin-header__back">← العودة إلى الموقع</a>
+    </header>
+
+    <div id="status-banner" class="status-banner" role="alert"></div>
+
+    <!-- Login Card -->
+    <section id="login-card" class="admin-card">
+      <h2>تسجيل الدخول</h2>
+      <form id="login-form">
+        <div id="url-group" class="form-group">
+          <label for="supabase-url">Supabase Project URL</label>
+          <input id="supabase-url" class="form-control" type="url" dir="ltr" placeholder="https://xxxxxxxxxxxx.supabase.co" required>
+        </div>
+        <div class="form-group">
+          <label for="login-email">البريد الإلكتروني</label>
+          <input id="login-email" class="form-control" type="email" dir="ltr" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">كلمة المرور</label>
+          <input id="login-password" class="form-control" type="password" dir="ltr" required>
+        </div>
+        <button type="submit" id="login-btn" class="btn-gold">دخول</button>
+      </form>
+    </section>
+
+    <!-- Dashboard -->
+    <div id="dashboard-panel" class="hidden">
+      <section class="admin-card">
+        <div class="admin-topbar">
+          <h2 style="margin:0;">إضافة رسالة جديدة</h2>
+          <button type="button" id="logout-btn" class="btn-outline">تسجيل خروج</button>
+        </div>
+
+        <form id="publish-form">
+          <div class="form-group">
+            <label for="msg-date">تاريخ الظهور (تقدر تختار تاريخ النهاردة أو يوم قادم للجدولة)</label>
+            <input id="msg-date" class="form-control" type="date" dir="ltr" required>
+          </div>
+
+          <div class="form-group">
+            <label for="msg-type">نوع الرسالة</label>
+            <select id="msg-type" class="form-control">
+              <option value="text">جملة / رسالة مكتوبة</option>
+              <option value="image">صورة (+ تعليق)</option>
+              <option value="spotify">أغنية من Spotify</option>
+              <option value="youtube">مقطع من YouTube</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="msg-title">عنوان قصير (اختياري)</label>
+            <input id="msg-title" class="form-control" type="text" placeholder="مثلاً: رسالة النهاردة ليكي">
+          </div>
+
+          <div class="form-group">
+            <label for="msg-text">الرسالة / التعليق</label>
+            <textarea id="msg-text" class="form-control" placeholder="اكتب رسالتك هنا..."></textarea>
+          </div>
+
+          <div id="image-upload-group" class="form-group hidden">
+            <label for="msg-file">اختار صورة من جهازك أو موبايلك</label>
+            <input id="msg-file" class="form-control" type="file" accept="image/*">
+          </div>
+
+          <div id="media-url-group" class="form-group hidden">
+            <label for="msg-media-url" id="media-url-label">رابط الأغنية أو الصورة</label>
+            <input id="msg-media-url" class="form-control" type="url" dir="ltr" placeholder="https://open.spotify.com/track/...">
+          </div>
+
+          <button type="submit" id="publish-btn" class="btn-gold">نشر الرسالة ✦</button>
+        </form>
+      </section>
+
+      <section class="admin-card">
+        <h2>الرسائل المحفوظة</h2>
+        <div id="messages-list">جاري التحميل...</div>
+      </section>
+    </div>
+  </div>
+
+  <script src="js/supabase-config.js"></script>
+  <script>
+    (function () {
+      const cfg = window.MoonSunApp.supabaseConfig;
+      const statusBanner = document.getElementById('status-banner');
+      const loginCard = document.getElementById('login-card');
+      const dashboardPanel = document.getElementById('dashboard-panel');
+      const urlInput = document.getElementById('supabase-url');
+      const urlGroup = document.getElementById('url-group');
+      const loginForm = document.getElementById('login-form');
+      const publishForm = document.getElementById('publish-form');
+      const msgDate = document.getElementById('msg-date');
+      const msgType = document.getElementById('msg-type');
+      const imageUploadGroup = document.getElementById('image-upload-group');
+      const mediaUrlGroup = document.getElementById('media-url-group');
+      const mediaUrlLabel = document.getElementById('media-url-label');
+      const messagesList = document.getElementById('messages-list');
+
+      let accessToken = localStorage.getItem('moon_sun_admin_token') || '';
+
+      function todayIso() {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      }
+      msgDate.value = todayIso();
+
+      if (cfg.projectUrl) {
+        urlInput.value = cfg.projectUrl;
+        urlGroup.classList.add('hidden');
+      }
+
+      function showStatus(msg, isError = false) {
+        statusBanner.textContent = msg;
+        statusBanner.className = `status-banner is-visible ${isError ? 'status-banner--err' : 'status-banner--ok'}`;
+      }
+
+      function updateTypeFields() {
+        const t = msgType.value;
+        imageUploadGroup.classList.toggle('hidden', t !== 'image');
+        mediaUrlGroup.classList.toggle('hidden', t === 'text');
+        if (t === 'image') {
+          mediaUrlLabel.textContent = 'أو رابط صورة مباشر (اختياري لو رفعت صورة فوق)';
+        } else if (t === 'spotify') {
+          mediaUrlLabel.textContent = 'رابط أغنية Spotify (Share -> Copy link)';
+        } else if (t === 'youtube') {
+          mediaUrlLabel.textContent = 'رابط فيديو YouTube';
+        }
+      }
+      msgType.addEventListener('change', updateTypeFields);
+
+      async function loadAllMessages() {
+        try {
+          const res = await fetch(`${cfg.projectUrl}/rest/v1/daily_messages?select=*&order=publish_date.desc,created_at.desc`, {
+            headers: {
+              apikey: cfg.publishableKey,
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+          if (res.status === 401) {
+            logout();
+            return;
+          }
+          const items = await res.json();
+          if (!Array.isArray(items) || items.length === 0) {
+            messagesList.innerHTML = '<p style="opacity:0.75;">مفيش رسائل مضافة لسه.</p>';
+            return;
+          }
+          messagesList.innerHTML = '';
+          items.forEach((item) => {
+            const row = document.createElement('div');
+            row.className = 'msg-row';
+            row.innerHTML = `
+              <div>
+                <div class="msg-row__date">${item.publish_date} — (${item.type})</div>
+                <p class="msg-row__text"></p>
+              </div>
+              <button type="button" class="btn-danger" data-id="${item.id}">حذف</button>
+            `;
+            row.querySelector('.msg-row__text').textContent = item.title || item.message || item.media_url || '—';
+            row.querySelector('.btn-danger').addEventListener('click', () => deleteMessage(item.id));
+            messagesList.appendChild(row);
+          });
+        } catch (err) {
+          messagesList.innerHTML = `<p style="color:#ffb3b3;">خطأ في التحميل: ${err.message}</p>`;
+        }
+      }
+
+      async function deleteMessage(id) {
+        if (!confirm('متأكد إنك عايز تمسح الرسالة دي؟')) return;
+        const res = await fetch(`${cfg.projectUrl}/rest/v1/daily_messages?id=eq.${id}`, {
+          method: 'DELETE',
+          headers: {
+            apikey: cfg.publishableKey,
+            Authorization: `Bearer ${accessToken}`
+          }
+        });
+        if (res.ok) {
+          showStatus('تم حذف الرسالة بنجاح.');
+          loadAllMessages();
+        } else {
+          showStatus('فشل حذف الرسالة.', true);
+        }
+      }
+
+      function enterDashboard() {
+        loginCard.classList.add('hidden');
+        dashboardPanel.classList.remove('hidden');
+        loadAllMessages();
+      }
+
+      function logout() {
+        accessToken = '';
+        localStorage.removeItem('moon_sun_admin_token');
+        dashboardPanel.classList.add('hidden');
+        loginCard.classList.remove('hidden');
+      }
+
+      document.getElementById('logout-btn').addEventListener('click', logout);
+
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const urlVal = urlInput.value.trim().replace(/\/+$/, '');
+        if (urlVal) {
+          localStorage.setItem('moon_sun_supabase_url', urlVal);
+        }
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+
+        try {
+          const res = await fetch(`${cfg.projectUrl}/auth/v1/token?grant_type=password`, {
+            method: 'POST',
+            headers: {
+              apikey: cfg.publishableKey,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.access_token) {
+            throw new Error(data.error_description || data.msg || 'بيانات الدخول غير صحيحة');
+          }
+          accessToken = data.access_token;
+          localStorage.setItem('moon_sun_admin_token', accessToken);
+          showStatus('تم تسجيل الدخول بنجاح ✨');
+          enterDashboard();
+        } catch (err) {
+          showStatus(err.message, true);
+        }
+      });
+
+      publishForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('publish-btn');
+        btn.disabled = true;
+
+        try {
+          const type = msgType.value;
+          let finalMediaUrl = document.getElementById('msg-media-url').value.trim() || null;
+
+          if (type === 'image') {
+            const fileInput = document.getElementById('msg-file');
+            const file = fileInput.files && fileInput.files[0];
+            if (file) {
+              const ext = (file.name.split('.').pop() || 'jpg').replace(/[^a-zA-Z0-9]/g, '');
+              const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+              const uploadRes = await fetch(`${cfg.projectUrl}/storage/v1/object/${cfg.bucketName}/${fileName}`, {
+                method: 'POST',
+                headers: {
+                  apikey: cfg.publishableKey,
+                  Authorization: `Bearer ${accessToken}`,
+                  'Content-Type': file.type || 'image/jpeg',
+                  'x-upsert': 'true'
+                },
+                body: file
+              });
+              if (!uploadRes.ok) {
+                const upErr = await uploadRes.json().catch(() => ({}));
+                if (uploadRes.status === 401) {
+                  logout();
+                  throw new Error('انتهت جلسة الدخول، من فضلك سجل دخول تاني.');
+                }
+                throw new Error(`فشل رفع الصورة (${uploadRes.status}): ${upErr.message || upErr.error || 'تأكد من وجود Bucket باسم daily-media'}`);
+              }
+              finalMediaUrl = `${cfg.projectUrl}/storage/v1/object/public/${cfg.bucketName}/${fileName}`;
+            }
+          }
+
+          const payload = {
+            publish_date: msgDate.value,
+            type,
+            title: document.getElementById('msg-title').value.trim() || null,
+            message: document.getElementById('msg-text').value.trim() || null,
+            media_url: finalMediaUrl
+          };
+
+          const insertRes = await fetch(`${cfg.projectUrl}/rest/v1/daily_messages`, {
+            method: 'POST',
+            headers: {
+              apikey: cfg.publishableKey,
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+              Prefer: 'return=representation'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (!insertRes.ok) {
+            const errData = await insertRes.json().catch(() => ({}));
+            throw new Error(errData.message || 'فشل حفظ الرسالة');
+          }
+
+          publishForm.reset();
+          msgDate.value = todayIso();
+          updateTypeFields();
+          showStatus('تم نشر الرسالة بنجاح ✨');
+          loadAllMessages();
+        } catch (err) {
+          showStatus(err.message, true);
+        } finally {
+          btn.disabled = false;
+        }
+      });
+
+      if (accessToken && cfg.projectUrl) {
+        enterDashboard();
+      }
+    })();
+  </script>
+</body>
+</html>
